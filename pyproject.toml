@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "langchain-langsmith-chatbot"
+version = "0.1.0"
+description = "An experimental chatbot to demonstrate AI engineering skills."
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+langchain = "^0.2.0"
+langgraph = "^0.0.51"
+langchain-openai = "^0.1.7"
+tavily-python = "^0.3.3"
+python-dotenv = "^1.0.1"
+ipykernel = "^6.29.4"
+langchainhub = "^0.1.16"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
