@@ -1,6 +1,6 @@
 import os
 from langchain_openai import ChatOpenAI
-from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langgraph.graph import StateGraph, END
 from langgraph.prebuilt import ToolNode
 
@@ -11,7 +11,7 @@ from .tools import tools
 prompt = ChatPromptTemplate.from_messages(
     [
         ("system", "You are a helpful assistant. Please respond to the user's request only based on the given context."),
-        ("human", "{input}"),
+        MessagesPlaceholder(variable_name="messages")
     ]
 )
 llm = ChatOpenAI(model="gpt-4o")
