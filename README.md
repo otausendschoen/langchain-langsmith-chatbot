@@ -25,6 +25,8 @@ This project is an experimental chatbot built to learn and demonstrate AI engine
 
     Your `.env` file should look like this (replace `...` with your actual keys):
 ```
+LLM_PROVIDER=google
+#LLM_PROVICDER=openai
 OPENAI_API_KEY=
 GOOGLE_API_KEY=AIza...your-google-key... # Model used: gemini-2.5-flash
 TAVILY_API_KEY=tvly-... # Optional
