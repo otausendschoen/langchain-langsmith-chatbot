@@ -25,7 +25,7 @@ llm_provider = os.getenv("LLM_PROVIDER", "openai").lower()
 if llm_provider == "openai":
     llm = ChatOpenAI(model="gpt-4o")
 elif llm_provider == "google":
-    llm = ChatGoogleGenerativeAI(model="gemini-pro")
+    llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
 else:
     raise ValueError(f"Unsupported LLM_PROVIDER: {llm_provider}")
 agent = prompt | llm.bind_tools(tools)
