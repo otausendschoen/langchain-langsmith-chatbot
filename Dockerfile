@@ -1,6 +1,7 @@
 # ---- Builder Stage ----
 # 1. Use an official Python image as a parent image that has poetry pre-installed
 FROM python:3.11-slim as builder
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists
 
 # 2. Set environment variables
 ENV POETRY_HOME="/opt/poetry"
@@ -9,16 +10,18 @@ ENV POETRY_NO_INTERACTION=1
 ENV PATH="$POETRY_VENV/bin:$POETRY_HOME/bin:$PATH"
 
 # 3. Install poetry
-RUN curl -sSL https://install.python-poetry.org | python -
-
+RUN pip install poetry==1.8.2
 # 4. Set the working directory in the container
 WORKDIR /app
 
 # 5. Copy the dependency files
 COPY poetry.lock pyproject.toml ./
+# Configure poetry to create the virtual environment in the project's root
+RUN poetry config virtualenvs.in-project true
 
-# 6. Install dependencies
-RUN poetry install --no-dev --no-root
+#6.  Install dependencies -- use --only main for modern poetry
+RUN poetry install --only main --no-root
+
 
 # ---- Final Stage ----
 # 1. Use a slim Python image for the final image
