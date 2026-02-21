@@ -10,7 +10,12 @@ from .tools import tools
 # 1. Define the Agent
 prompt = ChatPromptTemplate.from_messages(
     [
-        ("system", "You are a helpful assistant. Please respond to the user's request only based on the given context."),
+        ("system", (
+            "You are a helpful assistant. Respond to the user's request based on the context provided, "
+            "especially using information from tool outputs. If a tool output is available, prioritize "
+            "that information in your response. If you cannot find the answer, state that you couldn't "
+            "find the information. Keep your answers concise and direct."
+        )),
         MessagesPlaceholder(variable_name="messages")
     ]
 )
