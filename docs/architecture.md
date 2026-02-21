@@ -16,11 +16,12 @@ The chatbot's code will be organized within the `src/chatbot/` directory.
 
 1.  **Configuration (`.env`)**
     *   A `.env` file in the root directory will be used to securely manage API keys for services like OpenAI, LangSmith, and Tavily.
-    *   **`OPENAI_API_KEY`**: Your API key for OpenAI.
+    *   **`OPENAI_API_KEY`**: Your API key for OpenAI. (Required for chatbot function)
     *   **`TAVILY_API_KEY`**: Your API key for Tavily (web search). This key is optional; if not provided, the web search tool will not be available.
     *   **`LANGCHAIN_API_KEY`**: Your API key for LangSmith.
     *   **`LANGCHAIN_TRACING_V2`**: Set to `true` to enable LangSmith tracing.
     *   **`LANGCHAIN_ENDPOINT`**: (Optional) The API endpoint for LangSmith. Only required if your LangSmith account is in a specific region (e.g., `https://eu.api.smith.langchain.com` for West Europe). If not set, it defaults to `https://api.smith.langchain.com`.
+    *   **`LANGCHAIN_PROJECT`**: (Required for LangSmith tracing) The name of the project you want to send traces to in LangSmith (e.g., "my-chatbot-project"). This must exactly match a project name in your LangSmith account).
 
 2.  **State (`src/chatbot/state.py`)**
     *   Defines the "state" of our graph. This is the central data structure that gets passed between nodes.
@@ -37,7 +38,7 @@ The chatbot's code will be organized within the `src/chatbot/` directory.
         *   `agent`: The "brain" of the chatbot. It is a LangChain agent that, given the conversation state, decides to either respond directly or use a tool.
         *   `action`: The "tool executor". This node runs the tool chosen by the `agent` node and returns the output.
     *   **Edges**:
-        *   **Conditional Edging**: Logic will be added to the graph to route the flow based on the `agent`'s output. If the agent decided to use a tool, the graph transitions to the `action` node. If not, the graph finishes the turn.
+        *   **Conditional Edging**: The `should_continue` function acts as a conditional router. It inspects the `agent`'s output: if the agent decided to use a tool, the graph transitions to the `action` node; otherwise, the graph finishes the turn.
     *   The compiled graph will be a runnable object that manages the agent's execution cycle.
 
 5.  **Main Entrypoint (`src/chatbot/main.py`)**
