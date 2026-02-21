@@ -16,7 +16,11 @@ The chatbot's code will be organized within the `src/chatbot/` directory.
 
 1.  **Configuration (`.env`)**
     *   A `.env` file in the root directory will be used to securely manage API keys for services like OpenAI, LangSmith, and Tavily.
-    *   This file should not be committed to Git.
+    *   **`OPENAI_API_KEY`**: Your API key for OpenAI.
+    *   **`TAVILY_API_KEY`**: Your API key for Tavily (web search). This key is optional; if not provided, the web search tool will not be available.
+    *   **`LANGCHAIN_API_KEY`**: Your API key for LangSmith.
+    *   **`LANGCHAIN_TRACING_V2`**: Set to `true` to enable LangSmith tracing.
+    *   **`LANGCHAIN_ENDPOINT`**: (Optional) The API endpoint for LangSmith. Only required if your LangSmith account is in a specific region (e.g., `https://eu.api.smith.langchain.com` for West Europe). If not set, it defaults to `https://api.smith.langchain.com`.
 
 2.  **State (`src/chatbot/state.py`)**
     *   Defines the "state" of our graph. This is the central data structure that gets passed between nodes.
@@ -43,3 +47,8 @@ The chatbot's code will be organized within the `src/chatbot/` directory.
         *   Setting up LangSmith tracing.
         *   Instantiating and compiling the graph from `graph.py`.
         *   Running an interactive command-line loop that takes user input, invokes the graph, and prints the agent's response.
+
+## Troubleshooting
+
+For common issues and solutions, please refer to the [Troubleshooting Guide](TROUBLESHOOTING.md).
+
