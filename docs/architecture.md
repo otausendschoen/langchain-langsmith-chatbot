@@ -22,6 +22,7 @@ The chatbot's code will be organized within the `src/chatbot/` directory.
     *   **`LANGCHAIN_TRACING_V2`**: Set to `true` to enable LangSmith tracing.
     *   **`LANGCHAIN_ENDPOINT`**: (Optional) The API endpoint for LangSmith. Only required if your LangSmith account is in a specific region (e.g., `https://eu.api.smith.langchain.com` for West Europe). If not set, it defaults to `https://api.smith.langchain.com`.
     *   **`LANGCHAIN_PROJECT`**: (Required for LangSmith tracing) The name of the project you want to send traces to in LangSmith (e.g., "my-chatbot-project"). This must exactly match a project name in your LangSmith account).
+    *   **`GOOGLE_API_KEY`**: Your API key for Google Gemini. (Required if `LLM_PROVIDER=google`). Model used: `gemini-2.5-flash`.
 
 2.  **State (`src/chatbot/state.py`)**
     *   Defines the "state" of our graph. This is the central data structure that gets passed between nodes.
