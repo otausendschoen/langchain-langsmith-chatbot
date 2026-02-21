@@ -41,3 +41,24 @@ LANGCHAIN_PROJECT="my-chatbot-project" # Required if LANGCHAIN_API_KEY is set
     ```bash
     poetry run python -m src.chatbot.main
     ```
+
+## Running with Docker
+
+Alternatively, you can build and run this application as a Docker container.
+
+1.  **Build the Docker image:**
+    ```bash
+    docker build -t chatbot-api .
+    ```
+
+2.  **Run the Docker container:**
+    ```bash
+    docker run -d -p 8000:8000 --name my-chatbot-instance --env-file .env chatbot-api
+    ```
+
+3.  **Test the running container:**
+    *   Open your web browser and go to **[http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)** to test the API.
+    *   To see the container's logs, run: `docker logs my-chatbot-instance`
+    *   To stop the container, run: `docker stop my-chatbot-instance`
+    *   To remove the stopped container, run: `docker rm my-chatbot-instance`
+
