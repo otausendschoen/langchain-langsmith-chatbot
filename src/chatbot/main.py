@@ -3,7 +3,9 @@ from dotenv import load_dotenv
 
 # Load environment variables FIRST, before any other imports that might depend on them
 load_dotenv()
-print(f"DEBUG: OPENAI_API_KEY loaded: {bool(os.getenv('OPENAI_API_KEY'))}")
+print(f"DEBUG: OPENAI_API_KEY loaded: {bool(os.getenv(
+        'OPENAI_API_KEY'))}")
+
 
 from langchain_core.messages import HumanMessage
 
