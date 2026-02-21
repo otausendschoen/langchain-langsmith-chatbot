@@ -23,7 +23,7 @@ def agent_node(state: AgentState):
     The "brain" of the agent. This node decides what to do next.
     """
     result = agent.invoke(state)
-    return {"messages": result}
+    return {"messages": [result]}
 
 tool_node = ToolNode(tools)
 
