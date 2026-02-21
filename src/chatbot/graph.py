@@ -1,5 +1,6 @@
 import os
 from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langgraph.graph import StateGraph, END
 from langgraph.prebuilt import ToolNode
@@ -19,7 +20,14 @@ prompt = ChatPromptTemplate.from_messages(
         MessagesPlaceholder(variable_name="messages")
     ]
 )
-llm = ChatOpenAI(model="gpt-4o")
+llm_provider = os.getenv("LLM_PROVIDER", "openai").lower()
+
+if llm_provider == "openai":
+    llm = ChatOpenAI(model="gpt-4o")
+elif llm_provider == "google":
+    llm = ChatGoogleGenerativeAI(model="gemini-pro")
+else:
+    raise ValueError(f"Unsupported LLM_PROVIDER: {llm_provider}")
 agent = prompt | llm.bind_tools(tools)
 
 # 2. Define the Nodes
