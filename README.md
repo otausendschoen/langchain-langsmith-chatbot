@@ -24,7 +24,7 @@ This project is an experimental chatbot built to learn and demonstrate AI engine
     *   **`LANGCHAIN_PROJECT`**: (Required for LangSmith tracing) The name of the project you want to send traces to in LangSmith (e.g., "my-chatbot-project"). This must exactly match a project name in your LangSmith account).
 
     Your `.env` file should look like this (replace `...` with your actual keys):
-    ```
+``
 # --- API Keys ---
 # OpenAI (only if LLM_PROVIDER=openai)
 OPENAI_API_KEY=
@@ -38,6 +38,7 @@ LANGCHAIN_API_KEY=ls__... # Optional
 LANGCHAIN_TRACING_V2=true
 LANGCHAIN_ENDPOINT=https://eu.api.smith.langchain.com # Only if needed for your region
 LANGCHAIN_PROJECT="my-chatbot-project" # Required if LANGCHAIN_API_KEY is set
+``
     ```
     For troubleshooting API key issues, refer to the [Troubleshooting Guide](docs/TROUBLESHOOTING.md).
 3.  **Run the chatbot:**
