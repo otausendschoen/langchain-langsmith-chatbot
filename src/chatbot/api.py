@@ -1,25 +1,39 @@
+import os
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from langchain_core.messages import HumanMessage, AIMessage
-from dotenv import load_dotenv # Import load_dotenv
-import os
+from dotenv import load_dotenv
 
-load_dotenv() # Call load_dotenv() at the top
+# Load environment variables
+load_dotenv()
 
 from .graph import runnable
 
-# Create a FastAPI app instance
+# 1. Create the FastAPI app instance FIRST
 app = FastAPI(
     title="LangChain Chatbot Server",
     description="A simple API server for the LangChain chatbot.",
     version="1.0.0",
 )
 
-# Define a Pydantic model for the request body
+# 2. Mount static files
+# This makes the "static" folder accessible via the "/static" URL path
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+# 3. Define a Pydantic model for the request body
 class ChatRequest(BaseModel):
     message: str
 
-# Keep the old HTTP endpoint for compatibility
+# 4. Define endpoints
+
+# Serve the index.html file at the root URL
+@app.get("/")
+async def get_index():
+    return FileResponse("static/index.html")
+
+# Stateless HTTP endpoint
 @app.post("/chat")
 async def chat_endpoint(request: ChatRequest):
     """
@@ -30,7 +44,7 @@ async def chat_endpoint(request: ChatRequest):
     agent_response = response["messages"][-1].content
     return {"response": agent_response}
 
-# New WebSocket endpoint for stateful, real-time chat
+# Stateful WebSocket endpoint
 @app.websocket("/ws/chat")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
@@ -59,4 +73,8 @@ async def websocket_endpoint(websocket: WebSocket):
         print("Client disconnected")
     except Exception as e:
         print(f"Error: {e}")
-        await websocket.close()
+        # Note: Depending on the error, the socket might already be closed
+        try:
+            await websocket.close()
+        except:
+            pass
