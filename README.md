@@ -38,13 +38,18 @@ LANGCHAIN_PROJECT="my-chatbot-project" # Required if LANGCHAIN_API_KEY is set
     ```
     For troubleshooting API key issues, refer to the [Troubleshooting Guide](docs/TROUBLESHOOTING.md).
 3.  **Run the chatbot:**
-    ```bash
-    poetry run python -m src.chatbot.main
-    ```
+    *   **CLI Interface:**
+        ```bash
+        poetry run python -m src.chatbot.main
+        ```
+    *   **API Server (Local):**
+        ```bash
+        poetry run uvicorn src.chatbot.api:app --reload
+        ```
 
 ## Running with Docker
 
-Alternatively, you can build and run this application as a Docker container.
+Alternatively, you can build and run the chatbot as a containerized FastAPI server.
 
 1.  **Build the Docker image:**
     ```bash
@@ -57,8 +62,11 @@ Alternatively, you can build and run this application as a Docker container.
     ```
 
 3.  **Test the running container:**
-    *   Open your web browser and go to **[http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)** to test the API.
-    *   To see the container's logs, run: `docker logs my-chatbot-instance`
-    *   To stop the container, run: `docker stop my-chatbot-instance`
-    *   To remove the stopped container, run: `docker rm my-chatbot-instance`
+    *   **Interactive API Docs (Stateless HTTP):** Open your web browser and go to **[http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)**.
+    *   **Real-time Chat (Stateful WebSocket):** Connect to the WebSocket endpoint at `ws://localhost:8000/ws/chat`. You can use a WebSocket client or a simple HTML interface for this.
+    *   **Container Management:**
+        *   See logs: `docker logs my-chatbot-instance`
+        *   Stop: `docker stop my-chatbot-instance`
+        *   Remove: `docker rm my-chatbot-instance`
+
 
