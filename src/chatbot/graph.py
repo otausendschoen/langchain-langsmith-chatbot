@@ -1,6 +1,7 @@
 import os
 from langchain_openai import ChatOpenAI
-from langchain_core.prompts import ChatPromptTemplate
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langgraph.graph import StateGraph, END
 from langgraph.prebuilt import ToolNode
 
@@ -10,11 +11,23 @@ from .tools import tools
 # 1. Define the Agent
 prompt = ChatPromptTemplate.from_messages(
     [
-        ("system", "You are a helpful assistant. Please respond to the user's request only based on the given context."),
-        ("human", "{input}"),
+        ("system", (
+            "You are a helpful assistant. Respond to the user's request based on the context provided, "
+            "especially using information from tool outputs. If a tool output is available, prioritize "
+            "that information in your response. If you cannot find the answer, state that you couldn't "
+            "find the information. Keep your answers concise and direct."
+        )),
+        MessagesPlaceholder(variable_name="messages")
     ]
 )
-llm = ChatOpenAI(model="gpt-4o")
+llm_provider = os.getenv("LLM_PROVIDER", "openai").lower()
+
+if llm_provider == "openai":
+    llm = ChatOpenAI(model="gpt-4o")
+elif llm_provider == "google":
+    llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
+else:
+    raise ValueError(f"Unsupported LLM_PROVIDER: {llm_provider}")
 agent = prompt | llm.bind_tools(tools)
 
 # 2. Define the Nodes
@@ -23,7 +36,7 @@ def agent_node(state: AgentState):
     The "brain" of the agent. This node decides what to do next.
     """
     result = agent.invoke(state)
-    return {"messages": result}
+    return {"messages": [result]}
 
 tool_node = ToolNode(tools)
 

@@ -15,14 +15,50 @@ This project is an experimental chatbot built to learn and demonstrate AI engine
     poetry install
     ```
 2.  **Set up environment variables:**
-    Create a `.env` file and add your API keys:
+    Create a `.env` file in the project root and add your API keys.
+    *   **`OPENAI_API_KEY`**: Your API key for OpenAI. (Required for chatbot function)
+    *   **`TAVILY_API_KEY`**: Your API key for Tavily. (Optional; required for web search functionality)
+    *   **`LANGCHAIN_API_KEY`**: Your API key for LangSmith. (Optional; required for LangSmith tracing)
+    *   **`LANGCHAIN_TRACING_V2`**: Set to `true` to enable LangSmith tracing.
+    *   **`LANGCHAIN_ENDPOINT`**: (Optional) The API endpoint for LangSmith. Only required if your LangSmith account is in a specific region (e.g., `https://eu.api.smith.langchain.com` for West Europe). If not set, it defaults to `https://api.smith.langchain.com`.
+    *   **`LANGCHAIN_PROJECT`**: (Required for LangSmith tracing) The name of the project you want to send traces to in LangSmith (e.g., "my-chatbot-project"). This must exactly match a project name in your LangSmith account).
+
+    Your `.env` file should look like this (replace `...` with your actual keys):
+```
+LLM_PROVIDER=google
+#LLM_PROVICDER=openai
+OPENAI_API_KEY=
+GOOGLE_API_KEY=AIza...your-google-key... # Model used: gemini-2.5-flash
+TAVILY_API_KEY=tvly-... # Optional
+LANGCHAIN_API_KEY=ls__... # Optional
+LANGCHAIN_TRACING_V2=true
+LANGCHAIN_ENDPOINT=https://eu.api.smith.langchain.com # Only if needed for your region
+LANGCHAIN_PROJECT="my-chatbot-project" # Required if LANGCHAIN_API_KEY is set
+```
     ```
-    LANGCHAIN_TRACING_V2="true"
-    LANGCHAIN_API_KEY="..."
-    OPENAI_API_KEY="..."
-    TAVILY_API_KEY="..."
-    ```
+    For troubleshooting API key issues, refer to the [Troubleshooting Guide](docs/TROUBLESHOOTING.md).
 3.  **Run the chatbot:**
     ```bash
     poetry run python -m src.chatbot.main
     ```
+
+## Running with Docker
+
+Alternatively, you can build and run this application as a Docker container.
+
+1.  **Build the Docker image:**
+    ```bash
+    docker build -t chatbot-api .
+    ```
+
+2.  **Run the Docker container:**
+    ```bash
+    docker run -d -p 8000:8000 --name my-chatbot-instance --env-file .env chatbot-api
+    ```
+
+3.  **Test the running container:**
+    *   Open your web browser and go to **[http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)** to test the API.
+    *   To see the container's logs, run: `docker logs my-chatbot-instance`
+    *   To stop the container, run: `docker stop my-chatbot-instance`
+    *   To remove the stopped container, run: `docker rm my-chatbot-instance`
+

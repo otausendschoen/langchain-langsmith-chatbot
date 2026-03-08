@@ -46,3 +46,12 @@ This document outlines potential future enhancements and directions for your exp
 *   **Model Selection**: Experiment with different LLMs (e.g., other OpenAI models, open-source models) to find the best fit for your use case.
 
 This project is a fantastic starting point, and there's a vast world of AI engineering to explore!
+
+## 7. Debugging and Model Selection Tools
+
+*   **Programmatically List Available Google Gemini Models**:
+    If you encounter issues with specific Google Gemini model names (e.g., `404 NOT_FOUND` errors), it's useful to programmatically query the Google API to see which models are actually available to your account. This can be done with a small temporary Python script using `google.generativeai.GenerativeModel.list_models()`.
+
+*   **Implement a VS Code Debugger Setup Guide**:
+    Add instructions on how to set up `launch.json` for debugging Poetry projects within VS Code, allowing for step-by-step code execution and variable inspection.
+
