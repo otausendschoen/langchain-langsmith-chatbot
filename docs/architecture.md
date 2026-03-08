@@ -42,13 +42,11 @@ The chatbot's code will be organized within the `src/chatbot/` directory.
         *   **Conditional Edging**: The `should_continue` function acts as a conditional router. It inspects the `agent`'s output: if the agent decided to use a tool, the graph transitions to the `action` node; otherwise, the graph finishes the turn.
     *   The compiled graph will be a runnable object that manages the agent's execution cycle.
 
-5.  **Main Entrypoint (`src/chatbot/main.py`)**
-    *   This will be the main script to run the chatbot.
-    *   It will be responsible for:
-        *   Loading environment variables from `.env`.
-        *   Setting up LangSmith tracing.
-        *   Instantiating and compiling the graph from `graph.py`.
-        *   Running an interactive command-line loop that takes user input, invokes the graph, and prints the agent's response.
+5.  **Entrypoints**
+    *   **Interactive CLI (`src/chatbot/main.py`)**: A command-line script for direct interaction with the chatbot. It handles environment setup, LangSmith tracing, and runs a basic chat loop.
+    *   **Web API Server (`src/chatbot/api.py`)**: A FastAPI server that exposes the chatbot as a web service.
+        *   **`/chat` (POST)**: A stateless HTTP endpoint that receives a message and returns a single response.
+        *   **`/ws/chat` (WebSocket)**: A stateful WebSocket endpoint for real-time, bi-directional chat. It maintains the conversation history for the duration of the WebSocket session.
 
 ## Troubleshooting
 
