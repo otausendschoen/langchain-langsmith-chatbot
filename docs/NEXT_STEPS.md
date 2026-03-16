@@ -35,10 +35,18 @@ This document outlines potential future enhancements and directions for your exp
 
 ## 5. Deployment and User Interface
 
-*   [x] **Web Interface**: Built a professional web UI with FastAPI and WebSockets.
+*   [x] **Basic Web Interface**: Built a functional web UI with FastAPI and WebSockets.
 *   [x] **Containerization**: Dockerized the application for easy deployment.
 *   [x] **Local Deployment**: Successfully deployed and running on a Raspberry Pi (Homelab).
-*   [ ] **Cloud Deployment**: Deploy your chatbot to platforms like AWS, GCP, Azure, or Hugging Face Spaces.
+*   [ ] **Going Public (Make it a Website)**:
+    *   **Option A: Cloud Deployment (AWS/GCP)**:
+        *   Deploy your Docker image to **AWS App Runner** or **Google Cloud Run**.
+        *   Connect a domain (e.g., `chat.yourname.com`) and get free SSL/HTTPS.
+        *   Benefit: Professional, high uptime, accessible anywhere.
+    *   **Option B: Secure Home Exposure (The Raspberry Pi Way)**:
+        *   Use **Cloudflare Tunnels (cloudflared)** to securely connect your Pi to the internet without opening any ports on your router.
+        *   Register a domain through Cloudflare ($10/year).
+        *   Benefit: Keeps your data on your Pi while making it accessible worldwide.
 *   [ ] **Advanced UI Features**: Add Markdown rendering, chat history persistence, and mobile responsiveness.
 
 ## 6. Homelab & Edge Optimizations
