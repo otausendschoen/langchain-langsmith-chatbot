@@ -47,9 +47,34 @@ LANGCHAIN_PROJECT="my-chatbot-project" # Required if LANGCHAIN_API_KEY is set
         poetry run uvicorn src.chatbot.api:app --reload
         ```
 
-## Running with Docker
+## Homelab / Raspberry Pi Deployment
 
-Alternatively, you can build and run the chatbot as a containerized FastAPI server.
+This chatbot is optimized for low-power devices like a Raspberry Pi. The LLM logic is handled via external APIs (OpenAI/Google), meaning the Pi only manages the FastAPI server and WebSocket connections.
+
+### Running as a Persistent Service
+
+To run the chatbot continuously in the background on your Raspberry Pi:
+
+1.  **Build the image:**
+    ```bash
+    docker build -t chatbot-api .
+    ```
+
+2.  **Run with auto-restart:**
+    ```bash
+    docker run -d \
+      --name chatbot-service \
+      -p 8001:8000 \
+      --env-file .env \
+      --restart unless-stopped \
+      chatbot-api
+    ```
+
+The chatbot will now automatically start whenever your Raspberry Pi reboots. Access it at `http://<your-pi-ip>:8001`.
+
+## Running with Docker (Manual)
+
+Alternatively, you can build and run the chatbot as a containerized FastAPI server manually:
 
 1.  **Build the Docker image:**
     ```bash
