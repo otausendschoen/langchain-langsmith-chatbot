@@ -40,6 +40,7 @@ COPY --from=builder /app/.venv .venv
 # 5. Copy the rest of the application code
 COPY src ./src
 COPY docs ./docs
+COPY static ./static
 
 # 6. Expose the port the app runs on
 EXPOSE 8000
